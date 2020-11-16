@@ -75,11 +75,13 @@ try:
                     #print ("Es cero").
                     GPIO.output(5, GPIO.LOW)
                     time.sleep(1)
+                    
+            GPIO.output(5, GPIO.LOW)
             
         else:
             print("Falla en la lectura.")
          
-        time.sleep(60)
+        time.sleep(25)
     
 except KeyboardInterrupt:
     print("Simulacion interrumpida")
