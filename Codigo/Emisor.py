@@ -9,6 +9,7 @@ DHT_Pin = 4
 
 try:
     while True:
+        GPIO.output(5, GPIO.HIGH)
         humidity, temperature = Adafruit_DHT.read(DHT_Sensor, DHT_Pin)
         if humidity is not None and temperature is not None:
             print("Temp={0:0.1f}C Humidity={1:0.1f}%".format(temperature, humidity))
@@ -30,17 +31,17 @@ try:
             
             #Codificacion Manchester Diferencial
             
-            n=len(temp_bin)
-            temp_bin=(10-n)*'0'+temp_bin
+            n=len(temp_bin)#Calculamos la longitud de la temperatura
+            temp_bin=(10-n)*'0'+temp_bin#Completamos con ceros hasta llegar a  bits
             temp_bin_inv= temp_bin[::-1]
             temp_bin_inv_list = list(temp_bin_inv)
             n_temp_bin_inv_list =len(temp_bin_inv_list)
             man_diff=n_temp_bin_inv_list*['']
             dat='01'
 
-            if temp_bin_inv_list[1] == '0': #Primera condicion de Manchester Diferencial
+            if temp_bin_inv_list[0] == '0': #Primera condicion de Manchester Diferencial
                 man_diff[0]=dat[::-1]
-            elif temp_bin_inv_list[1] == '1':
+            elif temp_bin_inv_list[0] == '1':
                 man_diff[0]=dat
 
             i=1
@@ -64,24 +65,25 @@ try:
             man_diff_list=list(man_diff_str)
     
             print(temp_bin)
+            print(temp_bin_inv_list)
             print(man_diff_list)
             
             for i in man_diff_list:
                 if i == '1':
                     #print ("Es uno")
                     GPIO.output(5, GPIO.HIGH)
-                    time.sleep(1)
+                    time.sleep(0.01)
                 else:
                     #print ("Es cero").
                     GPIO.output(5, GPIO.LOW)
-                    time.sleep(1)
+                    time.sleep(0.01)
                     
-            GPIO.output(5, GPIO.LOW)
+            GPIO.output(5, GPIO.HIGH)
             
         else:
             print("Falla en la lectura.")
          
-        time.sleep(25)
+        time.sleep(10)
     
 except KeyboardInterrupt:
     print("Simulacion interrumpida")
