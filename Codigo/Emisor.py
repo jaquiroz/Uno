@@ -4,12 +4,14 @@ import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(5,GPIO.OUT)
+GPIO.setup(6,GPIO.OUT)
 DHT_Sensor = Adafruit_DHT.DHT11
 DHT_Pin = 4
 
 try:
     while True:
-        GPIO.output(5, GPIO.HIGH)
+        GPIO.output(5, GPIO.HIGH)#Salida de led
+        GPIO.output(6, GPIO.LOW)#Salida de rele
         humidity, temperature = Adafruit_DHT.read(DHT_Sensor, DHT_Pin)
         if humidity is not None and temperature is not None:
             print("Temp={0:0.1f}C Humidity={1:0.1f}%".format(temperature, humidity))
@@ -71,12 +73,14 @@ try:
             for i in man_diff_list:
                 if i == '1':
                     #print ("Es uno")
-                    GPIO.output(5, GPIO.HIGH)
-                    time.sleep(0.01)
+                    GPIO.output(5, GPIO.HIGH)#Salida de led
+                    GPIO.output(6, GPIO.LOW)#Salida de rele
+                    time.sleep(1)
                 else:
                     #print ("Es cero").
-                    GPIO.output(5, GPIO.LOW)
-                    time.sleep(0.01)
+                    GPIO.output(5, GPIO.LOW)#Salida de led
+                    GPIO.output(6, GPIO.HIGH)#Salida de rele
+                    time.sleep(1)
                     
             GPIO.output(5, GPIO.HIGH)
             
