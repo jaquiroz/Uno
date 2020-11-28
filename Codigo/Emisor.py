@@ -10,6 +10,7 @@ DHT_Pin = 4
 
 try:
     while True:
+        time.sleep(10)
         GPIO.output(5, GPIO.HIGH)#Salida de led
         GPIO.output(6, GPIO.LOW)#Salida de rele
         humidity, temperature = Adafruit_DHT.read(DHT_Sensor, DHT_Pin)
@@ -69,6 +70,7 @@ try:
             print(temp_bin)
             print(temp_bin_inv_list)
             print(man_diff_list)
+            print("**********************************************************************************************************************")
             
             for i in man_diff_list:
                 if i == '1':
@@ -87,7 +89,7 @@ try:
         else:
             print("Falla en la lectura.")
          
-        time.sleep(10)
+        #time.sleep(10)
     
 except KeyboardInterrupt:
     print("Simulacion interrumpida")
